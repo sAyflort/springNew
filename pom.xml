@@ -15,6 +15,7 @@
 
     <modules>
         <module>lesson7</module>
+        <module>testModule</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -68,17 +69,6 @@
                 <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <url>http://localhost:8080/manager/text</url>
-                    <username>sAyflort</username>
-                    <password>987987ff</password>
-                    <path>/servlet-app</path>
                 </configuration>
             </plugin>
         </plugins>
