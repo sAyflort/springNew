@@ -11,29 +11,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "users")
+@Table(name = "products")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String title;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = false)
+    private BigDecimal price;
 
-    @Column(nullable = false, length = 1024)
-    private String password;
-
-    public User(String username) {
-        this.username = username;
+    public Product(String title, BigDecimal price) {
+        this.title = title;
+        this.price = price;
     }
 }

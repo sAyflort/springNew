@@ -14,7 +14,6 @@
     </properties>
 
     <modules>
-        <module>lesson7</module>
         <module>testModule</module>
     </modules>
     <packaging>pom</packaging>
