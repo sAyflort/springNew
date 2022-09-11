@@ -1,79 +1,99 @@
 package ru.shikhov.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.shikhov.exceptions.EntityNotFoundException;
-import ru.shikhov.model.Product;
 import ru.shikhov.model.dto.ProductDto;
 import ru.shikhov.service.ProductService;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
+/*@RequestMapping("/api/v1/students")
+@RestController
+public class StudentsRestController {
+private StudentsService studentsService;
+@Autowired
+public void setStudentsService(StudentsService studentsService) {
+this.studentsService = studentsService;
+}
+@GetMapping("/{id}")
+public Student getStudentById(@PathVariable Long id) {
+return studentsService.getStudentById(id);
+}
+@GetMapping
+public List<Student> getAllStudents() {
+return studentsService.getAllStudentsList();
+}
+© geekbrains.ru 6
+@PostMapping
+public Student addStudent(@RequestBody Student student) {
+student.setId(0L);
+return studentsService.saveOrUpdate(student);
+}
+@PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+public Student updateStudent(@RequestBody Student student) {
+return studentsService.saveOrUpdate(student);
+}
+@DeleteMapping("/{id}")
+public int deleteStudent(@PathVariable Long id) {
+studentsService.delete(id);
+return HttpStatus.OK.value();
+}
+@ExceptionHandler
+public ResponseEntity<StudentsErrorResponse>
+handleException(StudentNotFoundException exc) {
+StudentsErrorResponse studentsErrorResponse = new
+StudentsErrorResponse();
+studentsErrorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+studentsErrorResponse.setMessage(exc.getMessage());
+studentsErrorResponse.setTimestamp(System.currentTimeMillis());
+return new ResponseEntity<>(studentsErrorResponse,
+HttpStatus.NOT_FOUND);
+}
+}
+*/
 
-@Slf4j
-@Controller
-@RequestMapping("/product")
+@org.springframework.web.bind.annotation.RestController
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class RestController {
 
     private final ProductService service;
 
-    @PostConstruct
-    public void init() {
-        for (int i = 0; i < 20; i++) {
-           //service.save(new ProductDto("Product"+(i+1), new BigDecimal((i+1)*100)));
-        }
-    }
-
     @GetMapping
-    public String listPage(
+    public List<ProductDto> listPage(
             @RequestParam(required = false) Double minPriceFilter,
             @RequestParam(required = false) Double maxPriceFilter,
             @RequestParam(required = false) Optional<Integer> page,
-            @RequestParam(required = false) Optional<Integer> size,
-            Model model
+            @RequestParam(required = false) Optional<Integer> size
     ) {
         Integer pageValue = page.orElse(1)-1;
         Integer sizeValue = size.orElse(10);
-        model.addAttribute("products", service.productByFilter(minPriceFilter, maxPriceFilter, pageValue, sizeValue));
-        return "product";
+        return service.productByFilter(minPriceFilter, maxPriceFilter, pageValue, sizeValue).getContent();
     }
 
 
     @GetMapping("/{id}")
-    public String form(@PathVariable("id") long id, Model model) {
-        Model model1 = model.addAttribute("product", service.findProductById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found")));
-        return "product_form";
+    public ProductDto form(@PathVariable("id") long id) {
+        return service.findProductById(id).orElse(new ProductDto());
     }
 
-    @GetMapping("/new")
-    public String addNewProduct(Model model) {
-        model.addAttribute("product", new ProductDto("New product", new BigDecimal(0)));
-        return "product_form";
-    }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProductById(@PathVariable long id) {
+    @DeleteMapping("/{id}")
+    public int deleteProductById(@PathVariable long id) {
         service.deleteProductById(id);
-        return "redirect:/product";
+        return HttpStatus.OK.value();
     }
 
-    @PostMapping
-    public String saveProduct(@Valid @ModelAttribute("product") ProductDto product) {
+    @PutMapping
+    public ProductDto saveProduct(@RequestBody ProductDto product) {
         service.save(product);
-        return "redirect:/product";
+        return product;
     }
 
 }
