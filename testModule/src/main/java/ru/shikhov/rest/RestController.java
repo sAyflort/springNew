@@ -1,6 +1,7 @@
 package ru.shikhov.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +67,7 @@ public class RestController {
     private final ProductService service;
 
     @GetMapping
-    public List<ProductDto> listPage(
+    public Page<ProductDto> listPage(
             @RequestParam(required = false) Double minPriceFilter,
             @RequestParam(required = false) Double maxPriceFilter,
             @RequestParam(required = false) Optional<Integer> page,
@@ -74,7 +75,7 @@ public class RestController {
     ) {
         Integer pageValue = page.orElse(1)-1;
         Integer sizeValue = size.orElse(10);
-        return service.productByFilter(minPriceFilter, maxPriceFilter, pageValue, sizeValue).getContent();
+        return service.productByFilter(minPriceFilter, maxPriceFilter, pageValue, sizeValue);
     }
 
 
