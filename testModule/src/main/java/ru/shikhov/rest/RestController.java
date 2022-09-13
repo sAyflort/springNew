@@ -1,4 +1,4 @@
-package ru.shikhov.controller;
+package ru.shikhov.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
