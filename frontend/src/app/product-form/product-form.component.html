@@ -1,6 +1,10 @@
 <div class="row py-2">
   <div class="col-12">
-    <form action="#" method="post">
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+
+    <form (ngSubmit)="save()">
 
       <div class="form-group">
         <label>Title</label>
