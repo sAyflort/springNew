@@ -1,32 +1,28 @@
-package ru.shikhov.model;
+package ru.shikhov.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "products")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class ProductDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank
     private String title;
 
-    @Column(nullable = false)
+    @Positive
     private BigDecimal price;
 
-    public Product(String title, BigDecimal price) {
+    public ProductDto(String title, BigDecimal price) {
         this.title = title;
         this.price = price;
     }
