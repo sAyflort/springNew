@@ -8,6 +8,8 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 import ru.shikhov.model.Product;
 
+import java.util.Optional;
+
 @Repository("productRepository")
 public interface ProductRepository extends JpaRepository<Product, Long>, QuerydslPredicateExecutor<Product> {
 
@@ -22,4 +24,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Queryds
             """,
             nativeQuery = true)
     Page<Product> productByFilter(Double minPriceFilter, Double maxPriceFilter, Pageable pageable);
+
+    Optional<Product> findProductById(Long id);
 }

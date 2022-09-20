@@ -4,7 +4,6 @@ import ru.shikhov.model.Product;
 import ru.shikhov.model.dto.ProductDto;
 
 public class ProductDtoMapper {
-    // не выходит запустить код, когда этот класс сам генерируется. Про это проблему писал в лс Вам
     public static ProductDto map(Product product) {
         if ( product == null ) {
             return null;

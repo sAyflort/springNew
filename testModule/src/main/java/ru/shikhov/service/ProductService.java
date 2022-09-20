@@ -3,6 +3,7 @@ package ru.shikhov.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.shikhov.model.dto.ProductDto;
 import ru.shikhov.model.mapper.ProductDtoMapper;
@@ -16,8 +17,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Page<ProductDto> productByFilter(Double minPriceFilter, Double maxPriceFilter, Integer page, Integer size) {
-        return productRepository.productByFilter(minPriceFilter, maxPriceFilter, PageRequest.of(page, size)).map(ProductDtoMapper::map);
+    public Page<ProductDto> productByFilter(Double minPriceFilter, Double maxPriceFilter, Integer page, Integer size, String sortField) {
+        return productRepository.productByFilter(minPriceFilter, maxPriceFilter, PageRequest.of(page, size, Sort.by(sortField))).map(ProductDtoMapper::map);
     }
 
     public Optional<ProductDto> findProductById(Long id) {

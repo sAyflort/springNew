@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RestController {
 
-    private final ProductService service;
+    /*private final ProductService service;
 
     @GetMapping
     public Page<ProductDto> listPage(
@@ -53,6 +53,6 @@ public class RestController {
         }
         service.save(product);
         return product;
-    }
+    }*/
 
 }

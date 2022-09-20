@@ -1,33 +1,28 @@
 package ru.shikhov.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
+import java.util.Set;
 
-@Entity
-@Table(name = "products")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+@Entity(name = "roles")
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String title;
-
     @Column(nullable = false)
-    private BigDecimal price;
+    private String name;
 
-    public Product(String title, BigDecimal price) {
-        this.title = title;
-        this.price = price;
-    }
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 }
